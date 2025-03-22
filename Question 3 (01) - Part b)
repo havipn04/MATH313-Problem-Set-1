@@ -1,3 +1,11 @@
+"""
+
+rouwenhorst.py
+------------
+
+This code discretizes a Markov process into N states using the Rouwenhorst' Method.
+"""
+
 from scipy.stats import norm
 import numpy as np
 from numpy import count_nonzero,expand_dims,linspace,tile
