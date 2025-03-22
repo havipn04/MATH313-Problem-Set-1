@@ -3,7 +3,7 @@
 run_rou.py
 --------------
 
-This code discretizes a Markov Chain using Rouwenhorst's Method and simulates it.
+This code discretizes a Markov Chain using Rouwenhorst's Method and simulates it for a single value of gamma.
 
 """
 
