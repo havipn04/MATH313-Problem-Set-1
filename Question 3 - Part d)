@@ -1,0 +1,58 @@
+#%% Imports.
+import matplotlib.pyplot as plt
+import numpy as np
+
+#%% Discretize AR(1) for different values of gamma.
+
+mu = 0.50000  # Intercept.
+gamma_list = [0.75000, 0.85000, 0.95000,0.99000]  # Different values of persistence (gamma).
+sigma = 1.00000  # Std. dev. of error term.
+N = 7  # Number of states.
+
+ar = {} # Method container.
+ar_y = {} # Container for state values.
+ar_pi = {} # Container for transition probabilities.
+
+for gamma_i in gamma_list:
+    key = f'gamma_{gamma_i}'
+    ar[key] = rouwenhorst_ar1
+    ar_y[key], ar_pi[key] = ar[key](mu, gamma_i, sigma, N)
+
+#%% Simulate the AR(1) processes based on discretized values.
+
+seed = 2025  # Seed for reproducibility.
+T = 50  # Time horizon.
+
+sim = {}
+
+# Simulate the Markov Chains for each gamma value.
+for key in ar_y.keys():
+    np.random.seed(seed)
+    sim[key] = simulate(ar_y[key], ar_pi[key], T)
+
+#%% Plot all time series in one graph for comparison.
+
+plt.figure(figsize=(10, 6))
+
+for key in sim:
+    plt.plot(range(T), np.squeeze(sim[key]), label=key)
+
+plt.xlabel('Time')
+plt.ylabel('Y')
+plt.title('AR(1) Process for different values of Gamma')
+plt.legend()
+plt.show()
+
+#%% Re-estimate the AR(1) series using simulated data.
+
+big1 = np.ones((T-1, 1))  # Intercept.
+bhat = {}  # Container.
+
+# Estimate the coefficients using the simulated Markov Chain.
+for key in sim:
+    y = np.expand_dims(sim[key][0, 1:T], axis=1)
+    x = np.expand_dims(sim[key][0, 0:T-1], axis=1)
+    bigX = np.concatenate((big1, x), axis=1)
+    bhat[key] = np.linalg.inv(bigX.T @ bigX) @ bigX.T @ y
+
+del key, T, ar, x, y, big1, bigX
