@@ -63,3 +63,10 @@ def rouwenhorst_ar1(mu, gamma, sigma, N):
         raise Exception("Some columns of transition matrix don't sum to 1.")
 
     return y,pmat_2
+
+mu = 0.50000 # Intercept.
+gamma = 0.85000 # Persistence.
+sigma = 1.00000 # Std. dev. of error term.
+N = 7 # Number of states.
+
+rouwenhorst_ar1(mu, gamma, sigma, N)
