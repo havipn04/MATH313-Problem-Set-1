@@ -1,6 +1,18 @@
+"""
+
+run_rou_multiple.py
+--------------
+
+This code discretizes a Markov Chain using Rouwenhorst's Method and simulates it with different values of gamma.
+
+"""
+
 #%% Imports.
 import matplotlib.pyplot as plt
 import numpy as np
+
+#from rouwenhorst import rouwenhorst_ar1
+#from simulate import simulate
 
 #%% Discretize AR(1) for different values of gamma.
 
